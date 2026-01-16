@@ -1,6 +1,6 @@
 # Latvian Phone Number Search App
 
-A minimal Sinatra backend for searching Latvian phone numbers on government websites.
+A web application for searching Latvian phone numbers on government websites, featuring a Sinatra backend and a single-file HTML frontend.
 
 ## Setup
 
@@ -15,9 +15,15 @@ bundle install
 cp .env.example .env
 # Edit .env with your Redis configuration
 
-# Run locally
+# Start the backend server
 ruby app.rb
+
+# Open the frontend in your browser
+open index.html
+# Or simply double-click the index.html file
 ```
+
+The backend runs on `http://localhost:4567` by default.
 
 ## Phone Number Crawler
 
@@ -65,3 +71,46 @@ Supports Latvian phone numbers in formats:
 - International: `+37122811907`
 
 All numbers are normalized to: `37122811907`
+
+## Web Frontend
+
+A single-file HTML frontend (`index.html`) that provides a user-friendly interface for searching phone numbers.
+
+### Features
+
+- Single, self-contained HTML file (no build process required)
+- Mobile-responsive design
+- Client-side phone number validation
+- Supports both local and international formats
+- Real-time search with loading states
+- Clear error messages and user feedback
+- Clickable results that open in new tabs
+
+### Usage
+
+Simply open `index.html` in your browser:
+
+```bash
+open index.html
+```
+
+Or double-click the file in your file explorer.
+
+### Configuration
+
+To change the backend URL, edit line 307 in `index.html`:
+
+```javascript
+const BACKEND_URL = 'http://localhost:4567';
+```
+
+For production deployment, change this to your backend's URL.
+
+### Phone Number Input
+
+The frontend accepts phone numbers in various formats:
+- Local: `22811907`
+- International: `+37122811907`
+- With separators: `+371 228 11907`, `22-81-19-07`, `(22) 81 19 07`
+
+All formats are automatically normalized before searching.
