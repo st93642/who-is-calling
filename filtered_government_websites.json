@@ -1,0 +1,107 @@
+[
+  {
+    "name": "State Enterprise Centre",
+    "url": "https://www.lursoft.lv",
+    "category": "agency"
+  },
+  {
+    "name": "Daugavpils City Council",
+    "url": "https://daugavpils.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Jelgava City Council",
+    "url": "https://www.jelgava.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Ventspils City Council",
+    "url": "https://www.ventspils.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Valmiera Municipality Council",
+    "url": "https://valmiera.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Salaspils Municipality Council",
+    "url": "https://www.salaspils.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Bauska Municipality Council",
+    "url": "https://www.bauska.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Madona Municipality Council",
+    "url": "https://www.madona.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Rēzekne City Council",
+    "url": "https://rezekne.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Kuldīga Municipality Council",
+    "url": "https://kuldiga.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Saldus Municipality Council",
+    "url": "https://saldus.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Olaine Municipality Council",
+    "url": "https://www.olaine.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Talsi Municipality Council",
+    "url": "https://www.talsi.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Saulkrasti Municipality Council",
+    "url": "https://saulkrasti.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Sigulda Municipality Council",
+    "url": "https://www.sigulda.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Ādaži Municipality Council",
+    "url": "https://adazi.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Jelgava Municipality Council",
+    "url": "https://jelgava.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Ludza Municipality Council",
+    "url": "https://www.ludza.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Valmiera Region Municipality",
+    "url": "https://valmierasnovads.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Salacgrīva Municipality Council",
+    "url": "https://salacgriva.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Pāvilosta Municipality Council",
+    "url": "https://pavilosta.lv",
+    "category": "municipality"
+  }
+]
