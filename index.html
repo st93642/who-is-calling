@@ -1,501 +1,660 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Latvian Government Phone Search</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      background: #f5f5f5;
-      color: #333;
-      line-height: 1.6;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
-      flex: 1;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    h1 {
-      font-size: 1.75rem;
-      color: #1a1a1a;
-      margin-bottom: 0.5rem;
-    }
-
-    .subtitle {
-      color: #666;
-      font-size: 0.95rem;
-    }
-
-    .search-box {
-      background: white;
-      border-radius: 8px;
-      padding: 1.5rem;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .form-group {
-      margin-bottom: 1rem;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-      color: #333;
-    }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 0.75rem;
-      font-size: 1rem;
-      border: 2px solid #ddd;
-      border-radius: 4px;
-      transition: border-color 0.2s;
-    }
-
-    input[type="text"]:focus {
-      outline: none;
-      border-color: #4a90a4;
-    }
-
-    input[type="text"].error {
-      border-color: #e74c3c;
-    }
-
-    .error-message {
-      color: #e74c3c;
-      font-size: 0.875rem;
-      margin-top: 0.25rem;
-      display: none;
-    }
-
-    .error-message.visible {
-      display: block;
-    }
-
-    .button-group {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    button {
-      padding: 0.75rem 1.5rem;
-      font-size: 1rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.2s;
-      font-weight: 500;
-    }
-
-    button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .search-btn {
-      flex: 1;
-      background-color: #4a90a4;
-      color: white;
-    }
-
-    .search-btn:hover:not(:disabled) {
-      background-color: #3a7a8e;
-    }
-
-    .clear-btn {
-      background-color: #ddd;
-      color: #333;
-    }
-
-    .clear-btn:hover:not(:disabled) {
-      background-color: #ccc;
-    }
-
-    .results {
-      margin-top: 1.5rem;
-    }
-
-    .results.hidden {
-      display: none;
-    }
-
-    .results-header {
-      font-weight: 600;
-      margin-bottom: 0.75rem;
-      color: #333;
-    }
-
-    .results-header.success {
-      color: #27ae60;
-    }
-
-    .results-header.not-found {
-      color: #7f8c8d;
-    }
-
-    .results-header.error {
-      color: #e74c3c;
-    }
-
-    .results-list {
-      list-style: none;
-    }
-
-    .result-item {
-      background: #f9f9f9;
-      border-radius: 4px;
-      padding: 0.75rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .result-item:last-child {
-      margin-bottom: 0;
-    }
-
-    .result-link {
-      color: #4a90a4;
-      text-decoration: none;
-      word-break: break-all;
-    }
-
-    .result-link:hover {
-      text-decoration: underline;
-    }
-
-    .loading {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: #666;
-    }
-
-    .spinner {
-      width: 20px;
-      height: 20px;
-      border: 2px solid #ddd;
-      border-top-color: #4a90a4;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .help-text {
-      margin-top: 1rem;
-      padding: 1rem;
-      background: #e8f4f8;
-      border-radius: 4px;
-      font-size: 0.875rem;
-      color: #555;
-    }
-
-    .help-text h3 {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-      color: #333;
-    }
-
-    .help-text ul {
-      margin-left: 1.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    footer {
-      text-align: center;
-      padding: 1rem;
-      color: #999;
-      font-size: 0.875rem;
-      border-top: 1px solid #e0e0e0;
-    }
-
-    /* Responsive design */
-    @media (max-width: 480px) {
-      .container {
-        padding: 1rem;
-      }
-
-      h1 {
-        font-size: 1.5rem;
-      }
-
-      .search-box {
-        padding: 1rem;
-      }
-
-      button {
-        padding: 0.625rem 1rem;
-        font-size: 0.9rem;
-      }
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who is Calling - Latvian Government Phone Search</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .search-box {
+            margin-bottom: 0;
+        }
+        
+        .form-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .status {
+            padding: 12px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: none;
+            font-size: 14px;
+        }
+        
+        .status.info {
+            background: #e3f2fd;
+            color: #1976d2;
+            border-left: 4px solid #1976d2;
+            display: block;
+        }
+        
+        .status.success {
+            background: #e8f5e9;
+            color: #388e3c;
+            border-left: 4px solid #388e3c;
+            display: block;
+        }
+        
+        .status.error {
+            background: #ffebee;
+            color: #c62828;
+            border-left: 4px solid #c62828;
+            display: block;
+        }
+        
+        .results {
+            margin-top: 20px;
+        }
+        
+        .result-item {
+            background: #f5f5f5;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .result-item h3 {
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .result-item p {
+            color: #666;
+            font-size: 14px;
+            margin: 4px 0;
+        }
+        
+        .result-pages {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .page-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 13px;
+            margin-right: 10px;
+            word-break: break-all;
+        }
+        
+        .page-link:hover {
+            text-decoration: underline;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #eee;
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 10px 0;
+            display: none;
+        }
+        
+        .progress-bar.active {
+            display: block;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .no-results {
+            text-align: center;
+            color: #999;
+            padding: 20px;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .form-group {
+                flex-direction: column;
+            }
+        }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Latvian Government Phone Search</h1>
-      <p class="subtitle">Find phone numbers on Latvian government websites</p>
-    </header>
-
-    <main>
-      <div class="search-box">
-        <form id="searchForm">
-          <div class="form-group">
-            <label for="phoneInput">Phone Number</label>
-            <input
-              type="text"
-              id="phoneInput"
-              name="phone"
-              placeholder="22811907 or +37122811907"
-              autocomplete="tel"
-              autofocus
-            >
-            <div id="errorMessage" class="error-message"></div>
-          </div>
-
-          <div class="button-group">
-            <button type="submit" class="search-btn" id="searchBtn">Search</button>
-            <button type="button" class="clear-btn" id="clearBtn">Clear</button>
-          </div>
-        </form>
-
-        <div id="results" class="results hidden">
-          <div id="resultsHeader" class="results-header"></div>
-          <div id="resultsContent"></div>
+    <div class="container">
+        <h1>📞 Who is Calling</h1>
+        <p class="subtitle">Search Latvian government agency phone numbers</p>
+        
+        <div class="search-box">
+            <div class="form-group">
+                <input 
+                    type="text" 
+                    id="phoneInput" 
+                    placeholder="Enter phone number (e.g., 67769890)" 
+                    autocomplete="off"
+                >
+                <button id="searchBtn">Search</button>
+            </div>
         </div>
-
-        <div class="help-text">
-          <h3>How to use:</h3>
-          <ul>
-            <li>Enter a Latvian phone number in local format (e.g., 22811907)</li>
-            <li>Or use international format (e.g., +37122811907)</li>
-            <li>The search works with spaces, dashes, and parentheses</li>
-          </ul>
+        
+        <div id="status" class="status"></div>
+        <div class="progress-bar" id="progressBar">
+            <div class="progress-fill" id="progressFill"></div>
         </div>
-      </div>
-    </main>
-  </div>
-
-  <footer>
-    Phone numbers sourced from Latvian government websites
-  </footer>
-
-  <script>
-    // Backend URL - change this for different environments
-    const BACKEND_URL = 'http://localhost:4567';
-
-    // DOM elements
-    const form = document.getElementById('searchForm');
-    const phoneInput = document.getElementById('phoneInput');
-    const searchBtn = document.getElementById('searchBtn');
-    const clearBtn = document.getElementById('clearBtn');
-    const errorMessage = document.getElementById('errorMessage');
-    const resultsDiv = document.getElementById('results');
-    const resultsHeader = document.getElementById('resultsHeader');
-    const resultsContent = document.getElementById('resultsContent');
-
-    // Normalize phone number (remove spaces, dashes, parentheses, plus sign)
-    function normalizePhoneNumber(phone) {
-      // Remove all non-digit characters
-      return phone.replace(/\D/g, '');
-    }
-
-    // Validate phone number format
-    function validatePhoneNumber(phone) {
-      // Remove non-digit characters for validation
-      const cleaned = normalizePhoneNumber(phone);
-      
-      // Must be 8 digits (local) or 11 digits (international with country code)
-      if (cleaned.length !== 8 && cleaned.length !== 11) {
-        return 'Please enter a valid Latvian phone number (8 digits or 11 with country code)';
-      }
-      
-      // If 11 digits, must start with 371 (Latvian country code)
-      if (cleaned.length === 11 && !cleaned.startsWith('371')) {
-        return 'Invalid Latvian country code. Use +371 for international format';
-      }
-      
-      return null; // No error
-    }
-
-    // Show error message
-    function showError(message) {
-      errorMessage.textContent = message;
-      errorMessage.classList.add('visible');
-      phoneInput.classList.add('error');
-    }
-
-    // Clear error message
-    function clearError() {
-      errorMessage.classList.remove('visible');
-      phoneInput.classList.remove('error');
-    }
-
-    // Display loading state
-    function showLoading() {
-      searchBtn.disabled = true;
-      clearBtn.disabled = true;
-      phoneInput.disabled = true;
-      
-      resultsHeader.className = 'results-header';
-      resultsHeader.innerHTML = '<div class="loading"><div class="spinner"></div>Searching...</div>';
-      resultsContent.innerHTML = '';
-      resultsDiv.classList.remove('hidden');
-    }
-
-    // Display results
-    function displayResults(data) {
-      searchBtn.disabled = false;
-      clearBtn.disabled = false;
-      phoneInput.disabled = false;
-
-      resultsHeader.className = 'results-header';
-
-      if (data.found && data.results.length > 0) {
-        // Results found
-        resultsHeader.classList.add('success');
-        resultsHeader.textContent = `Found ${data.results.length} result${data.results.length !== 1 ? 's' : ''}:`;
         
-        const list = document.createElement('ul');
-        list.className = 'results-list';
-        
-        data.results.forEach(url => {
-          const li = document.createElement('li');
-          li.className = 'result-item';
-          li.innerHTML = `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="result-link">${escapeHtml(url)}</a>`;
-          list.appendChild(li);
-        });
-        
-        resultsContent.innerHTML = '';
-        resultsContent.appendChild(list);
-      } else if (!data.found) {
-        // No results found
-        resultsHeader.classList.add('not-found');
-        resultsHeader.textContent = `No results found for: ${phoneInput.value}`;
-        resultsContent.innerHTML = '<p style="color: #999; font-size: 0.9rem;">Try a different format or check the number.</p>';
-      } else {
-        // Error in response
-        resultsHeader.classList.add('error');
-        resultsHeader.textContent = 'Search error';
-        resultsContent.innerHTML = `<p style="color: #e74c3c; font-size: 0.9rem;">${escapeHtml(data.error || 'Unknown error occurred')}</p>`;
-      }
+        <div id="results" class="results"></div>
+    </div>
 
-      resultsDiv.classList.remove('hidden');
-    }
+    <script>
+        const phoneInput = document.getElementById('phoneInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const statusEl = document.getElementById('status');
+        const resultsEl = document.getElementById('results');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
 
-    // Display error from fetch request
-    function displayFetchError(error) {
-      searchBtn.disabled = false;
-      clearBtn.disabled = false;
-      phoneInput.disabled = false;
+        // Government websites embedded directly (no CORS issues)
+        const sitesList = [
+  {
+    "name": "State Enterprise Centre",
+    "url": "https://www.lursoft.lv",
+    "category": "agency"
+  },
+  {
+    "name": "Daugavpils City Council",
+    "url": "https://daugavpils.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Jelgava City Council",
+    "url": "https://www.jelgava.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Ventspils City Council",
+    "url": "https://www.ventspils.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Valmiera Municipality Council",
+    "url": "https://valmiera.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Salaspils Municipality Council",
+    "url": "https://www.salaspils.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Bauska Municipality Council",
+    "url": "https://www.bauska.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Madona Municipality Council",
+    "url": "https://www.madona.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Rēzekne City Council",
+    "url": "https://rezekne.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Kuldīga Municipality Council",
+    "url": "https://kuldiga.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Saldus Municipality Council",
+    "url": "https://saldus.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Olaine Municipality Council",
+    "url": "https://www.olaine.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Talsi Municipality Council",
+    "url": "https://www.talsi.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Saulkrasti Municipality Council",
+    "url": "https://saulkrasti.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Sigulda Municipality Council",
+    "url": "https://www.sigulda.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Ādaži Municipality Council",
+    "url": "https://adazi.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Jelgava Municipality Council",
+    "url": "https://jelgava.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Ludza Municipality Council",
+    "url": "https://www.ludza.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Valmiera Region Municipality",
+    "url": "https://valmierasnovads.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Salacgrīva Municipality Council",
+    "url": "https://salacgriva.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Pāvilosta Municipality Council",
+    "url": "https://pavilosta.lv",
+    "category": "municipality"
+  },
+  {
+    "name": "Cabinet of Ministers of Latvia",
+    "url": "https://www.mk.gov.lv",
+    "category": "government"
+  },
+  {
+    "name": "Saeima (Parliament of Latvia)",
+    "url": "https://www.saeima.lv",
+    "category": "government"
+  },
+  {
+    "name": "President of Latvia",
+    "url": "https://www.president.lv",
+    "category": "government"
+  },
+  {
+    "name": "Ministry of Finance",
+    "url": "https://www.fm.gov.lv",
+    "category": "ministry"
+  },
+  {
+    "name": "Ministry of Transport",
+    "url": "https://www.sam.gov.lv",
+    "category": "ministry"
+  },
+  {
+    "name": "Ministry of Foreign Affairs",
+    "url": "https://www.mfa.gov.lv",
+    "category": "ministry"
+  },
+  {
+    "name": "State Social Insurance Agency (SIVA)",
+    "url": "https://siva.gov.lv",
+    "category": "agency"
+  },
+  {
+    "name": "Latvian Council of Sworn Notaries",
+    "url": "https://latvijasnotars.lv",
+    "category": "agency"
+  }
+];
 
-      resultsHeader.className = 'results-header error';
-      resultsHeader.textContent = 'Connection Error';
-      
-      let errorText = 'Unable to connect to the server. ';
-      if (error.message.includes('Failed to fetch')) {
-        errorText += 'Please ensure the backend server is running on ' + BACKEND_URL;
-      } else {
-        errorText += error.message;
-      }
-      
-      resultsContent.innerHTML = `<p style="color: #e74c3c; font-size: 0.9rem;">${escapeHtml(errorText)}</p>`;
-      resultsDiv.classList.remove('hidden');
-    }
+        let isSearching = false;
 
-    // Escape HTML to prevent XSS
-    function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    }
-
-    // Perform search
-    async function performSearch(phoneNumber) {
-      const normalized = normalizePhoneNumber(phoneNumber);
-      
-      showLoading();
-      clearError();
-
-      try {
-        const response = await fetch(`${BACKEND_URL}/search?number=${encodeURIComponent(normalized)}`, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-          },
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          throw new Error(errorData.error || `Server returned ${response.status} ${response.statusText}`);
+        function initializeApp() {
+            console.log(`Loaded ${sitesList.length} government websites`);
+            statusEl.classList.remove('error');
         }
 
-        const data = await response.json();
-        displayResults(data);
-      } catch (error) {
-        displayFetchError(error);
-      }
-    }
+        function normalizePhoneNumber(input) {
+            // Remove all non-digits
+            const cleaned = String(input).replace(/\D/g, '');
+            
+            // If 8 digits, prepend 371
+            if (cleaned.length === 8) {
+                return `371${cleaned}`;
+            }
+            
+            // If 11 digits starting with 371, use as-is
+            if (cleaned.length === 11 && cleaned.startsWith('371')) {
+                return cleaned;
+            }
+            
+            // If 12 digits starting with 00371, extract last 11
+            if (cleaned.length === 12 && cleaned.startsWith('00371')) {
+                return cleaned.slice(2);
+            }
+            
+            throw new Error('Invalid phone number format');
+        }
 
-    // Handle form submission
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const phoneNumber = phoneInput.value.trim();
-      
-      if (!phoneNumber) {
-        showError('Please enter a phone number');
-        return;
-      }
+        function extractPhoneNumbers(text) {
+            const results = new Set();
+            if (!text) return results;
 
-      const validationError = validatePhoneNumber(phoneNumber);
-      if (validationError) {
-        showError(validationError);
-        return;
-      }
+            // Normalize text slightly to handle zero-width spaces or weird dashes
+            const cleanText = text.replace(/[\u200B-\u200D\uFEFF]/g, '').replace(/[\u2012-\u2015]/g, '-');
 
-      await performSearch(phoneNumber);
-    });
+            const patterns = [
+                /\+371\s*([2,6]\d{7})/g,              // +371 67123456
+                /00371\s*([2,6]\d{7})/g,             // 00371 67123456
+                /\b([2,6]\d{7})\b/g,                  // 67123456
+                /\b([2,6]\d\s\d{3}\s\d{3})\b/g,      // 6 712 345
+                /\b([2,6]\d{3}\s\d{4})\b/g,          // 6712 3456
+                /\b([2,6]\d\-\d{3}\-\d{3})\b/g       // 6-712-3456
+            ];
 
-    // Handle clear button
-    clearBtn.addEventListener('click', () => {
-      phoneInput.value = '';
-      clearError();
-      resultsDiv.classList.add('hidden');
-      phoneInput.focus();
-    });
+            patterns.forEach((pattern) => {
+                const matches = cleanText.matchAll(pattern);
+                for (const match of matches) {
+                    const digits = match[0].replace(/\D/g, '');
+                    const normalized = digits.length === 8 ? `371${digits}` : digits;
+                    if (normalized.length === 11 && normalized.startsWith('371')) {
+                        results.add(normalized);
+                    }
+                }
+            });
+            return results;
+        }
 
-    // Clear error on input
-    phoneInput.addEventListener('input', () => {
-      clearError();
-    });
+        function showStatus(message, type = 'info') {
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+            if (type === 'error') {
+                setTimeout(() => {
+                    statusEl.classList.remove(type);
+                }, 5000);
+            }
+        }
 
-    // Focus input on page load
-    window.addEventListener('load', () => {
-      phoneInput.focus();
-    });
-  </script>
-</body>
-</html>
+        async function fetchWithProxy(url) {
+            // Try different proxies in order of reliability
+            const proxies = [
+                {
+                    getUrl: (u) => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+                    parse: (res) => res.text()
+                },
+                {
+                    getUrl: (u) => `https://api.allorigins.win/get?url=${encodeURIComponent(u)}`,
+                    parse: async (res) => {
+                        const data = await res.json();
+                        return data.contents;
+                    }
+                }
+            ];
+
+            let lastError;
+            for (const proxy of proxies) {
+                try {
+                    const proxyUrl = proxy.getUrl(url);
+                    const response = await fetch(proxyUrl, {
+                        signal: AbortSignal.timeout(10000) // 10s timeout
+                    });
+                    
+                    if (!response.ok) {
+                        lastError = `HTTP ${response.status}`;
+                        continue;
+                    }
+                    
+                    return await proxy.parse(response);
+                } catch (e) {
+                    lastError = e.message;
+                    console.warn(`Proxy attempt failed for ${url}: ${e.message}`);
+                }
+            }
+            throw new Error(lastError || 'All proxies failed');
+        }
+
+        async function crawlSiteContent(site, targetNumber) {
+            const matches = [];
+            const visited = new Set();
+            
+            // Priority pages
+            const root = site.url.endsWith('/') ? site.url : site.url + '/';
+            const queue = [root];
+            const contactPaths = [
+                'kontakti', 'iestades-kontakti', 'kontaktinformacija', 
+                'contacts', 'contact', 'par-mums', 'rekviziti', 'info'
+            ];
+            
+            contactPaths.forEach(path => queue.push(root + path));
+
+            let processed = 0;
+            const maxPages = 12;
+
+            while (queue.length > 0 && processed < maxPages) {
+                const url = queue.shift();
+                if (!url || visited.has(url)) continue;
+                visited.add(url);
+                processed++;
+
+                try {
+                    const html = await fetchWithProxy(url);
+                    if (!html) continue;
+                    
+                    const temp = document.createElement('div');
+                    temp.innerHTML = html;
+                    
+                    // 1. Check innerText
+                    const pageText = temp.innerText || '';
+                    if (extractPhoneNumbers(pageText).has(targetNumber)) {
+                        if (!matches.includes(url)) matches.push(url);
+                    }
+
+                    // 2. Check tel: links
+                    const telLinks = temp.querySelectorAll('a[href^="tel:"]');
+                    for (const link of telLinks) {
+                        const telRaw = link.getAttribute('href').replace('tel:', '');
+                        if (extractPhoneNumbers(telRaw).has(targetNumber)) {
+                            if (!matches.includes(url)) matches.push(url);
+                            break;
+                        }
+                    }
+
+                    // 3. Extract more links if on homepage
+                    if (url === root || url === site.url) {
+                        const links = temp.querySelectorAll('a[href]');
+                        links.forEach(link => {
+                            try {
+                                const href = link.getAttribute('href');
+                                const absoluteUrl = new URL(href, url).href;
+                                if (absoluteUrl.startsWith(root) && 
+                                    (absoluteUrl.toLowerCase().includes('kontakt') || 
+                                     absoluteUrl.toLowerCase().includes('iestad') ||
+                                     absoluteUrl.toLowerCase().includes('informacij'))) {
+                                    if (!visited.has(absoluteUrl)) queue.push(absoluteUrl);
+                                }
+                            } catch (e) {}
+                        });
+                    }
+
+                    // Early exit if we found a match on a page with "kontakti" in URL
+                    if (matches.length > 0 && url.toLowerCase().includes('kontakt')) break;
+
+                } catch (error) {
+                    console.log(`Crawl error for ${url}: ${error.message}`);
+                }
+            }
+
+            return { matches, visited: visited.size };
+        }
+
+        async function performSearch(targetNumber) {
+            if (!sitesList.length) {
+                showStatus('Websites not loaded', 'error');
+                return;
+            }
+
+            try {
+                const normalized = normalizePhoneNumber(targetNumber);
+                showStatus(`Searching for ${normalized} across ${sitesList.length} government websites...`, 'info');
+                progressBar.classList.add('active');
+                resultsEl.innerHTML = '';
+                isSearching = true;
+                searchBtn.disabled = true;
+
+                const allMatches = [];
+                
+                for (let i = 0; i < sitesList.length; i++) {
+                    const site = sitesList[i];
+                    const progress = ((i) / sitesList.length) * 100;
+                    progressFill.style.width = `${progress}%`;
+                    
+                    showStatus(`Crawling ${site.name} (${i + 1}/${sitesList.length})...`, 'info');
+                    
+                    const result = await crawlSiteContent(site, normalized);
+                    if (result.matches.length > 0) {
+                        allMatches.push({
+                            site: site.name,
+                            url: site.url,
+                            pages: result.matches
+                        });
+                    }
+                }
+
+                progressFill.style.width = '100%';
+                isSearching = false;
+                searchBtn.disabled = false;
+                progressBar.classList.remove('active');
+
+                if (allMatches.length > 0) {
+                    showStatus(`Found ${allMatches.reduce((sum, m) => sum + m.pages.length, 0)} match(es)!`, 'success');
+                    displayResults(allMatches, normalized);
+                } else {
+                    showStatus('No matches found', 'error');
+                    resultsEl.innerHTML = '<div class="no-results">Phone number not found in indexed pages</div>';
+                }
+            } catch (error) {
+                showStatus(`Error: ${error.message}`, 'error');
+                isSearching = false;
+                searchBtn.disabled = false;
+                progressBar.classList.remove('active');
+            }
+        }
+
+        function displayResults(matches, targetNumber) {
+            resultsEl.innerHTML = matches.map(match => `
+                <div class="result-item">
+                    <h3>${match.site}</h3>
+                    <p>${match.url}</p>
+                    <div class="result-pages">
+                        <strong>Found on:</strong>
+                        ${match.pages.map(page => `
+                            <a href="${page}" target="_blank" class="page-link">${new URL(page).pathname}</a>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Event listeners
+        searchBtn.addEventListener('click', () => {
+            const phone = phoneInput.value.trim();
+            if (phone) performSearch(phone);
+        });
+
+        phoneInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !isSearching) {
+                const phone = phoneInput.value.trim();
+                if (phone) performSearch(phone);
+            }
+        });
+
+        // Load websites on page load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeApp);
+        } else {
+            initializeApp();
+        }
+    </script>
