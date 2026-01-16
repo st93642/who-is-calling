@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Latvian Government Phone Search</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      flex: 1;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      color: #1a1a1a;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .search-box {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #333;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #4a90a4;
+    }
+
+    input[type="text"].error {
+      border-color: #e74c3c;
+    }
+
+    .error-message {
+      color: #e74c3c;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+
+    .error-message.visible {
+      display: block;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    button {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      font-weight: 500;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .search-btn {
+      flex: 1;
+      background-color: #4a90a4;
+      color: white;
+    }
+
+    .search-btn:hover:not(:disabled) {
+      background-color: #3a7a8e;
+    }
+
+    .clear-btn {
+      background-color: #ddd;
+      color: #333;
+    }
+
+    .clear-btn:hover:not(:disabled) {
+      background-color: #ccc;
+    }
+
+    .results {
+      margin-top: 1.5rem;
+    }
+
+    .results.hidden {
+      display: none;
+    }
+
+    .results-header {
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: #333;
+    }
+
+    .results-header.success {
+      color: #27ae60;
+    }
+
+    .results-header.not-found {
+      color: #7f8c8d;
+    }
+
+    .results-header.error {
+      color: #e74c3c;
+    }
+
+    .results-list {
+      list-style: none;
+    }
+
+    .result-item {
+      background: #f9f9f9;
+      border-radius: 4px;
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .result-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .result-link {
+      color: #4a90a4;
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    .result-link:hover {
+      text-decoration: underline;
+    }
+
+    .loading {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #666;
+    }
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #ddd;
+      border-top-color: #4a90a4;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .help-text {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #e8f4f8;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      color: #555;
+    }
+
+    .help-text h3 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    .help-text ul {
+      margin-left: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      color: #999;
+      font-size: 0.875rem;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    /* Responsive design */
+    @media (max-width: 480px) {
+      .container {
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .search-box {
+        padding: 1rem;
+      }
+
+      button {
+        padding: 0.625rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Latvian Government Phone Search</h1>
+      <p class="subtitle">Find phone numbers on Latvian government websites</p>
+    </header>
+
+    <main>
+      <div class="search-box">
+        <form id="searchForm">
+          <div class="form-group">
+            <label for="phoneInput">Phone Number</label>
+            <input
+              type="text"
+              id="phoneInput"
+              name="phone"
+              placeholder="22811907 or +37122811907"
+              autocomplete="tel"
+              autofocus
+            >
+            <div id="errorMessage" class="error-message"></div>
+          </div>
+
+          <div class="button-group">
+            <button type="submit" class="search-btn" id="searchBtn">Search</button>
+            <button type="button" class="clear-btn" id="clearBtn">Clear</button>
+          </div>
+        </form>
+
+        <div id="results" class="results hidden">
+          <div id="resultsHeader" class="results-header"></div>
+          <div id="resultsContent"></div>
+        </div>
+
+        <div class="help-text">
+          <h3>How to use:</h3>
+          <ul>
+            <li>Enter a Latvian phone number in local format (e.g., 22811907)</li>
+            <li>Or use international format (e.g., +37122811907)</li>
+            <li>The search works with spaces, dashes, and parentheses</li>
+          </ul>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer>
+    Phone numbers sourced from Latvian government websites
+  </footer>
+
+  <script>
+    // Backend URL - change this for different environments
+    const BACKEND_URL = 'http://localhost:4567';
+
+    // DOM elements
+    const form = document.getElementById('searchForm');
+    const phoneInput = document.getElementById('phoneInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const errorMessage = document.getElementById('errorMessage');
+    const resultsDiv = document.getElementById('results');
+    const resultsHeader = document.getElementById('resultsHeader');
+    const resultsContent = document.getElementById('resultsContent');
+
+    // Normalize phone number (remove spaces, dashes, parentheses, plus sign)
+    function normalizePhoneNumber(phone) {
+      // Remove all non-digit characters
+      return phone.replace(/\D/g, '');
+    }
+
+    // Validate phone number format
+    function validatePhoneNumber(phone) {
+      // Remove non-digit characters for validation
+      const cleaned = normalizePhoneNumber(phone);
+      
+      // Must be 8 digits (local) or 11 digits (international with country code)
+      if (cleaned.length !== 8 && cleaned.length !== 11) {
+        return 'Please enter a valid Latvian phone number (8 digits or 11 with country code)';
+      }
+      
+      // If 11 digits, must start with 371 (Latvian country code)
+      if (cleaned.length === 11 && !cleaned.startsWith('371')) {
+        return 'Invalid Latvian country code. Use +371 for international format';
+      }
+      
+      return null; // No error
+    }
+
+    // Show error message
+    function showError(message) {
+      errorMessage.textContent = message;
+      errorMessage.classList.add('visible');
+      phoneInput.classList.add('error');
+    }
+
+    // Clear error message
+    function clearError() {
+      errorMessage.classList.remove('visible');
+      phoneInput.classList.remove('error');
+    }
+
+    // Display loading state
+    function showLoading() {
+      searchBtn.disabled = true;
+      clearBtn.disabled = true;
+      phoneInput.disabled = true;
+      
+      resultsHeader.className = 'results-header';
+      resultsHeader.innerHTML = '<div class="loading"><div class="spinner"></div>Searching...</div>';
+      resultsContent.innerHTML = '';
+      resultsDiv.classList.remove('hidden');
+    }
+
+    // Display results
+    function displayResults(data) {
+      searchBtn.disabled = false;
+      clearBtn.disabled = false;
+      phoneInput.disabled = false;
+
+      resultsHeader.className = 'results-header';
+
+      if (data.found && data.results.length > 0) {
+        // Results found
+        resultsHeader.classList.add('success');
+        resultsHeader.textContent = `Found ${data.results.length} result${data.results.length !== 1 ? 's' : ''}:`;
+        
+        const list = document.createElement('ul');
+        list.className = 'results-list';
+        
+        data.results.forEach(url => {
+          const li = document.createElement('li');
+          li.className = 'result-item';
+          li.innerHTML = `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="result-link">${escapeHtml(url)}</a>`;
+          list.appendChild(li);
+        });
+        
+        resultsContent.innerHTML = '';
+        resultsContent.appendChild(list);
+      } else if (!data.found) {
+        // No results found
+        resultsHeader.classList.add('not-found');
+        resultsHeader.textContent = `No results found for: ${phoneInput.value}`;
+        resultsContent.innerHTML = '<p style="color: #999; font-size: 0.9rem;">Try a different format or check the number.</p>';
+      } else {
+        // Error in response
+        resultsHeader.classList.add('error');
+        resultsHeader.textContent = 'Search error';
+        resultsContent.innerHTML = `<p style="color: #e74c3c; font-size: 0.9rem;">${escapeHtml(data.error || 'Unknown error occurred')}</p>`;
+      }
+
+      resultsDiv.classList.remove('hidden');
+    }
+
+    // Display error from fetch request
+    function displayFetchError(error) {
+      searchBtn.disabled = false;
+      clearBtn.disabled = false;
+      phoneInput.disabled = false;
+
+      resultsHeader.className = 'results-header error';
+      resultsHeader.textContent = 'Connection Error';
+      
+      let errorText = 'Unable to connect to the server. ';
+      if (error.message.includes('Failed to fetch')) {
+        errorText += 'Please ensure the backend server is running on ' + BACKEND_URL;
+      } else {
+        errorText += error.message;
+      }
+      
+      resultsContent.innerHTML = `<p style="color: #e74c3c; font-size: 0.9rem;">${escapeHtml(errorText)}</p>`;
+      resultsDiv.classList.remove('hidden');
+    }
+
+    // Escape HTML to prevent XSS
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Perform search
+    async function performSearch(phoneNumber) {
+      const normalized = normalizePhoneNumber(phoneNumber);
+      
+      showLoading();
+      clearError();
+
+      try {
+        const response = await fetch(`${BACKEND_URL}/search?number=${encodeURIComponent(normalized)}`, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error || `Server returned ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        displayResults(data);
+      } catch (error) {
+        displayFetchError(error);
+      }
+    }
+
+    // Handle form submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const phoneNumber = phoneInput.value.trim();
+      
+      if (!phoneNumber) {
+        showError('Please enter a phone number');
+        return;
+      }
+
+      const validationError = validatePhoneNumber(phoneNumber);
+      if (validationError) {
+        showError(validationError);
+        return;
+      }
+
+      await performSearch(phoneNumber);
+    });
+
+    // Handle clear button
+    clearBtn.addEventListener('click', () => {
+      phoneInput.value = '';
+      clearError();
+      resultsDiv.classList.add('hidden');
+      phoneInput.focus();
+    });
+
+    // Clear error on input
+    phoneInput.addEventListener('input', () => {
+      clearError();
+    });
+
+    // Focus input on page load
+    window.addEventListener('load', () => {
+      phoneInput.focus();
+    });
+  </script>
+</body>
+</html>
