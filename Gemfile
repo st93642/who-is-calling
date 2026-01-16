@@ -1,0 +1,8 @@
+source 'https://rubygems.org'
+
+gem 'sinatra'
+gem 'redis'
+gem 'dotenv'
+gem 'minitest'
+gem 'rackup'
+gem 'puma'

@@ -1,0 +1,21 @@
+# Dependencies
+vendor/bundle
+
+# Environment
+.env
+.env.local
+
+# Logs
+*.log
+
+# Ruby
+.bundle
+*.gem
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
